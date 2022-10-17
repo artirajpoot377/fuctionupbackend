@@ -40,4 +40,84 @@ router.get('/student-details/:name', function(req, res){
     res.send('Dummy response')
 })
 
+
+
+
+// assinment
+router.get('/movies', function (req,res){
+    
+    const mo=["shershaah","krishna","chup","bramashtra"]
+    res.send(mo)
+})
 module.exports = router;
+//
+router.get('/movies/:index', function (req,res){
+    let inParams = req.params
+    console.log(inParams)
+    const mo=["shershaah","krishna","chup","bramashtra"]
+    if(inParams.index>mo.length){
+       res.send("plz enter right valid")
+    }
+   
+   
+   res.send(mo[inParams.index])
+})
+//
+router.get('/films', function (req,res){
+    
+    const fi=[ {
+        id: 1,
+        name: "earth"
+       },
+        {
+        id: 2,
+        name: "star"
+       }, {
+        id: 3,
+        name: "moon"
+       }, {
+        id: 4,
+        name: "sky"
+       }]
+       
+    res.send(fi)
+})
+//
+
+router.get('/films/:id', function (req,res){
+
+    let idParam=req.params
+    
+    const fi=[ {
+        id: 1,
+        name: "earth"
+       },
+        {
+        id: 2,
+        name: "star"
+       }, {
+        id: 3,
+        name: "moon"
+       }, {
+        id: 4,
+        name: "sky"
+       }]
+
+       
+       if(idParam.id>(fi.length)||idParam.id==0){
+        res.send("not valid")
+        
+    }      
+       
+       
+       for(i of fi){
+
+       
+        
+        
+        if(i.id==idParam.id){
+            console.log(i)
+            res.send(i.name)
+        }
+    }
+})

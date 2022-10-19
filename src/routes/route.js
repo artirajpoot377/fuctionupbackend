@@ -1,6 +1,7 @@
 const express = require('express');
 const myHelper = require('../util/helper')
-const underscore = require('underscore')
+const underscore = require('underscore');
+const { application } = require('express');
 
 const router = express.Router();
 
@@ -68,7 +69,7 @@ router.get("/films", function(req, res){
         "name": "Incendies"
        }, {
         "id": 3,
-        "name": "Rang de Basanti"
+        "name": "Rang de Basanti" 
        }, {
         "id": 4,
         "name": "Finding Nemo"
@@ -106,6 +107,37 @@ router.get("/films/:filmId", function(req, res){
 
        //if there is no match give an error response
        res.send("The film id doesn't match any movie")
+})
+
+// assignment 19/10
+router.get('/sol1', function (req, res) {
+    let arr = [1, 2, 3, 5, 6, 7]
+    total = 0
+    for (i of arr) {
+        total += i
+    }
+    let lastnum = arr.pop()
+    let sum = lastnum * (lastnum + 1) / 2
+    let missingnumber = sum - total
+    console.log(missingnumber)
+res.send({ data : missingnumber})
+})
+
+//second
+router.get('/sol2',function(req ,res){
+    let arr= [33, 34, 35, 37, 38]
+    total =0
+    let len = arr.length
+    for( i of arr){
+        total+=i
+    }
+    let lastnum =arr.pop()
+    let fristnum =arr.shift()
+    let sum = (len +1)*(fristnum+lastnum)/2
+    let misnum = sum -total
+     console.log(misnum)
+    res.send({data : misnum})
+
 })
 
 module.exports = router;

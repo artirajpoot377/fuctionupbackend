@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/students/:name', function(req, res) {
+/*router.get('/students/:name', function(req, res) {
     let studentName = req.params.name
     console.log(studentName)
     res.send(studentName)
@@ -157,7 +157,49 @@ router.post( "/post-query-2", function (req, res){
         if ( myArr[i] > input )     finalArr.push( myArr[i])
     }
     res.send( {data: finalArr , status: true})
-})
+})*/
 
+// assignment today 20/10
+
+let persons = [
+    {
+        name: "PK",
+        age: 10,
+        votingStatus: false
+    },
+    {
+        name: "SK",
+        age: 20,
+        votingStatus: false
+    },
+    {
+        name: "AA",
+        age: 70,
+        votingStatus: false
+    },
+    {
+        name: "SC",
+        age: 5,
+        votingStatus: false
+    },
+    {
+        name: "HO",
+        age: 40,
+        votingStatus: false
+    }
+]
+router.post('/person', function (req, res) {
+    const votingAge1 = req.query.votingAge
+    console.log(votingAge1)
+    const updatedpersons = []
+    persons.forEach((person) => {
+        if (person.age > votingAge1) {
+            person.votingStatus = true
+            updatedpersons.push(person)
+        }
+    })
+    return res.send({ updatedpersons: updatedpersons })
+
+})
 
 module.exports = router;

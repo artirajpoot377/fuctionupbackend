@@ -8,19 +8,22 @@ router.get("/test-me", function (req, res) {
     res.send("My first ever api!")
 })
 
-router.post("/createUser", UserController.createUser  )
+//router.post("/createUser", UserController.createUser  )
 
-router.get("/getUsersData", UserController.getUsersData)
+//router.get("/getUsersData", UserController.getUsersData)
 
-router.post("/createBook", BookController.createBook  )
+//router.post("/createBook", BookController.createBook  )
 
-router.get("/getBooksData", BookController.getBooksData)
+//router.get("/getBooksData", BookController.getBooksData)
 
-router.post("/updateBooks", BookController.updateBooks)
-router.post("/deleteBooks", BookController.deleteBooks)
-
+//router.post("/updateBooks", BookController.updateBooks)
+router.post("/createBook1", BookController.createBook1 )
+router.post("/creatauthor1", BookController.creatauthor1)
+router.get("/findauthor", BookController.findauthor)
+router.get("/findPries", BookController.findPries)
+router.get("/getbook", BookController.getbook)
 //MOMENT JS
-const moment = require('moment');
+/*const moment = require('moment');
 router.get("/dateManipulations", function (req, res) {
     
     // const today = moment();
@@ -36,6 +39,6 @@ router.get("/dateManipulations", function (req, res) {
     console.log(x)
 
     res.send({ msg: "all good"})
-})
+})*/
 
 module.exports = router;

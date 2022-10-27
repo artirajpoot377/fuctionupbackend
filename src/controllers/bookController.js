@@ -1,7 +1,9 @@
 const { count } = require("console")
-const BookModel= require("../models/bookModel")
+//const BookModel= require("../models/bookModel")
+const authorModel= require("../models/authorModel.js")
+const bookModel = require("../models/bookModel")
 
-const createBook= async function (req, res) {
+/*const createBook= async function (req, res) {
     let data= req.body
 
     let savedData= await BookModel.create(data)
@@ -40,7 +42,7 @@ const deleteBooks= async function (req, res) {
      )
      
      res.send( { msg: allBooks})
-}
+}*/
 
 
 
@@ -51,9 +53,67 @@ const deleteBooks= async function (req, res) {
 // UPDATE
 // DELETE
 
+//assignemet
+
+const createBook1=async function (req, res){
+    let data=req.body
+    let fetchdata=await bookModel.create(data)
+    res.send({msg:fetchdata})
+}
+
+const creatauthor1=async function (req, res){
+    let data=req.body
+    let fetchdata=await authorModel.create(data)
+    res.send({msg:fetchdata})
+
+}
+
+//2
+const getbook=async function (req, res){
+    let all=await authorModel.find({author_name:"chetan bhagat"})
+    console.log(all)
+    const [obj]=all
+    const b= obj.author_id
+    let allauthor=await bookModel.find({author_id:b})
+    res.send({msg:all})
+}
 
 
-module.exports.createBook= createBook
-module.exports.getBooksData= getBooksData
-module.exports.updateBooks= updateBooks
-module.exports.deleteBooks= deleteBooks
+
+//3
+const findauthor=async function (req, res){
+   
+    let getid=await bookModel.findOneAndUpdate({name:"two states"},{$set:{prices:100}}  ).select( {author_id:1, _id:0} )
+
+
+    let getauthorName = await authorModel.find({author_id:1}).select( {author_name:1, prices:1,_id:0} )
+    res.send({msg:getauthorName})
+
+}
+
+
+//4
+
+const findPries = async function( req ,res){
+    let allBooks = await bookModel.find({ prices: { $gte: 50, $lte: 100} } ).select({ author_id :1})
+  let a  = [ ]
+  for(i of allBooks){
+    let objjj=await authorModel.findOne({author_id:(i.author_id)}).select({author_name:1,_id:0})
+    
+     a.push(i)
+     a.push(objjj)
+}
+res.send({ msg : a})
+}
+
+
+//module.exports.createBook= createBook
+//module.exports.getBooksData= getBooksData
+//module.exports.updateBooks= updateBooks
+//module.exports.deleteBooks= deleteBooks
+module.exports.createBook1= createBook1
+module.exports.creatauthor1= creatauthor1
+module.exports.findauthor= findauthor
+module.exports.findPries= findPries
+module.exports.getbook= getbook
+

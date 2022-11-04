@@ -4,7 +4,7 @@ const userModel = require("../models/userModel");
 /*
   Read all the comments multiple times to understand why we are doing what we are doing in login api and getUserData api
 */
-const createUser = async function (abcd, xyz) {
+/*const createUser = async function (abcd, xyz) {
   //You can name the req, res objects anything.
   //but the first parameter is always the request 
   //the second parameter is always the response
@@ -90,9 +90,94 @@ const updateUser = async function (req, res) {
   let userData = req.body;
   let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, userData);
   res.send({ status: updatedUser, data: updatedUser });
-};
+};*/
+
+
+//--------------------assignement--4/11/2022--------------------
+const createUser = async function (req, res) {
+  let userData = req.body;
+ let savedData= await userModel.create(userData)
+    res.send({msg: savedData})
+}
+//------------------2---------------------
+const loginUser = async function(req,res) {
+
+  let userName = req.body.emailId;
+  let password = req.body.password;
+
+  let user = await userModel.findOne({emailId: userName , password: password})
+  // console.log(user);
+  if(!user)
+  return res.send({
+    status:false,
+    msz: "User & password is not corrret"
+  })
+
+  // Create the jwt token nd sent it in response |
+let token = await jwt.sign({userId: user._id.toString()},"artirajpoot")
+console.log(token);
+res.send({status:true, data:token})
+}
+//---------------------------3---------------
+const getUserData = async function (req, res){  
+  //token = req.headers["x-auth-token"]
+ // console.log(token);
+  //if(!token)
+  //return res.send({
+    //status:false,
+    //msz: "token Not avabile"
+  //})
+  //let decodedToken = jwt.verify(token,"artirajpoot");
+  //if (!decodedToken)
+    //return res.send({status: false, msg: "token is invalid"});
+
+    let userId = req.params.userId
+    let userDetails = await userModel.findById(userId)
+    if(!userDetails)
+    return res.send({
+      status: false ,
+      msz: "User is not found"
+    });
+    res.send({status:true, data: userDetails})
+  }
+//--------------------------4-----------------------
+const updateUser = async function (req, res) {
+  //token = req.headers["x-auth-token"]
+  //if(!token)
+  //return res.send({
+   // status:false,
+    //msz: "token Not avabile"
+  //})
+  //let decodedToken = jwt.verify(token,"artirajpoot");
+  //if (!decodedToken)
+    //return res.send({status: false, msg: "token is invalid"});
+  let userId = req.params.userId;
+  if (!userId) {
+    return res.send({
+      satus:false,
+      msz:"No such user exists"});
+  }
+
+  let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, {$set:{age:40}},{new:true});
+  res.send({status:true, msz: updatedUser})
+}
+///-------------------------------5--------------------------
+const deleteUser = async function (req, res) {
+  let userId = req.params.userId;
+  if (!userId) {
+    return res.send({
+      satus:false,
+      msz:"No such user exists"});
+   }
+  //  let find1 = await userModel.findOne({ _id: userId})
+  //  console.log(find1);
+  let  deleteUser = await userModel.findOneAndUpdate({  _id: userId },{$set:{isDeleted:false}},{new:true});
+  res.send({status:true,msz:deleteUser})
+  
+}
 
 module.exports.createUser = createUser;
 module.exports.getUserData = getUserData;
 module.exports.updateUser = updateUser;
 module.exports.loginUser = loginUser;
+module.exports.deleteUser = deleteUser;

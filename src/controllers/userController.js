@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const userModel = require("../models/userModel");
 
-const createUser = async function (abcd, xyz) {
+/*const createUser = async function (abcd, xyz) {
   //You can name the req, res objects anything.
   //but the first parameter is always the request 
   //the second parameter is always the response
@@ -113,10 +113,83 @@ const postMessage = async function (req, res) {
 
     //return the updated user document
     return res.send({status: true, data: updatedUser})
+}*/
+
+
+//---------------------------assignment-----------6/11/2022----------------
+//--------------question1----------------------
+const createUser = async function (req, res) {
+  let data = req.body;
+  let savedData = await userModel.create(data);
+  res.send({ msg: savedData });
+};
+//------------------------question2------------------------
+const loginUser = async function(req,res) {
+
+  let userName = req.body.emailId;
+  let password = req.body.password;
+
+  let user = await userModel.findOne({emailId: userName , password: password})
+  if(!user)
+  return res.send({
+    status:false,
+    msz: "User & password is not corrret"
+  })
+  var token = await jwt.sign({userId: user._id.toString()},"arti")
+console.log(token);
+
+ 
+res.send({status:true, data:token})
+}
+
+//----------------3--------------------
+const getUserData = async function (req, res){  
+  
+    let userId = req.params.userId
+    let userDetails = await userModel.findById(userId)
+    if(!userDetails)
+    return res.send({
+      status: false ,
+      msz: "User is not found"
+    });
+    res.send({status:true, data: userDetails})
+  }
+//----------------4-----------------------
+
+const updateUser = async function (req, res) {
+  let message = req.body.message
+  let userId = req.params.userId;
+  let userDetails1 = await userModel.findById(userId)
+  if (!userDetails1) {
+    return res.send({
+      satus:false,
+      msz:"No such user exists"});
+  }
+
+  let updatedPosts = userDetails1.posts
+  updatedPosts.push(message);
+  let updatedUser = await userModel.findOneAndUpdate({_id: userDetails1._id},{posts: updatedPosts}, {new: true})
+  return res.send({status: true, data: updatedUser})
+}
+
+//---------------------------5------------------------------------------
+const deleteUser = async function (req, res) {
+  let userId = req.params.userId;
+  if (!userId) {
+    return res.send({
+      satus:false,
+      msz:"No such user exists"});
+   }
+  //  let find1 = await userModel.findOne({ _id: userId})
+  //  console.log(find1);
+  let  deleteUser = await userModel.findOneAndUpdate({  _id: userId },{$set:{isDeleted:true}},{new:true});
+  res.send({status:true,msz:deleteUser})
+  
 }
 
 module.exports.createUser = createUser;
 module.exports.getUserData = getUserData;
 module.exports.updateUser = updateUser;
 module.exports.loginUser = loginUser;
-module.exports.postMessage = postMessage
+module.exports.deleteUser = deleteUser;
+//module.exports.postMessage = postMessage

@@ -21,15 +21,7 @@ const createorder= async function (req, res) {
        if(!isValidObjectId(product)){
         return res.send({message:"product id is not a validobject id"})
        }
-       const date = new Date()
-       let day = date.getDate();
-       let month = date.getMonth() + 1;
-       let year = date.getFullYear();
-       
-       
-       let currentDate = `${day}-${month}-${year}`
-       
-       data["date"] = JSON.stringify(currentDate)
+      
    
      let savedData= await orderModel.create(data)
     res.send({msg: savedData})

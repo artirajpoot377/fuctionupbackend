@@ -11,7 +11,7 @@ const createCollege = async function (req, res) {
       }
 
       const { name, fullName, logoLink } = data
-      const nameInLowerCase = data.name.toLowerCase()
+      //const nameInLowerCase = data.name.toLowerCase()
 
       //checking required field is mandatory
       if (!name) {
@@ -20,6 +20,7 @@ const createCollege = async function (req, res) {
       if (!isEmpty(name)){ 
       return res.status(400).send({ status: false, message: "Name can't be empty" })
       }
+       const nameInLowerCase = data.name.toLowerCase()
       if (!fullName) {
          return res.status(400).send({ status: false, message: "Please provide fullName" })
       }

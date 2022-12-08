@@ -7,11 +7,11 @@ const getBlockdata = async function (req, res) {
             method: 'get',
             url: 'http://api.coincap.io/v2/assets',
             Headers: {
-                'Authorization': 'Bearer e52175d9-6812-4293-a45a-b34e371559de'
+                'Authorization': 'Bearer 3a982a94-e418-4d75-a00c-9065e1a04ba5'
             }
         }
         let result = await axios(options)
-        console.log(result);
+        //console.log(result);
         let resultData = result.data
 
         for (let i = 0; i < resultData.data.length; i++) {
@@ -36,14 +36,11 @@ const getBlockdata = async function (req, res) {
 
     } 
     catch (err) {
-        console.log(err)
+        //console.log(err)
         res.status(500).send({ msg: err.message })
     }
 }
 
 module.exports.getBlockdata = getBlockdata
 
-// Your Api Key is Ready!
-// Your key: e52175d9-6812-4293-a45a-b34e371559de
-// Expires on 12/7/2033
-//api.coincap.io/v2/assets
+

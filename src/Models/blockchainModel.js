@@ -28,4 +28,5 @@ const blockSchema = new mongoose.Schema({
 
 
 
-module.exports = mongoose.model("blockchain", blockSchema)
+//module.exports = mongoose.model("blockchain", blockSchema)
+module.exports = mongoose.model("blockchain",blockSchema)
